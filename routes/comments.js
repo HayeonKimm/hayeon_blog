@@ -6,14 +6,15 @@ const User = require('../models/user');
 const Lists = require('../models/list');
 const dayjs = require('dayjs');
 
+
+
+
 //댓글 작성 API
 
 router.post('/comments/:Uni_num', authMiddleware, async (req, res) => {
     const { sentence_co } = req.body;
     const { Uni_num } = req.params;
-
     const { user } = res.locals;
-
     const nickname = user.nickname;
 
     const [existsPosts] = await Lists.find({ Uni_num });
@@ -33,6 +34,17 @@ router.post('/comments/:Uni_num', authMiddleware, async (req, res) => {
         });
     }
 
+    // 유저가 다를 때 예외처리 하기
+
+    if (user !== existsPosts.id) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                errorMessage: '유저가 다릅니다. 너 누구야 ...',
+            });
+    }
+
     let now = dayjs();
     let time = now.format();
     time = time.slice(0, 16).split('T').join(' ');
@@ -50,7 +62,7 @@ router.post('/comments/:Uni_num', authMiddleware, async (req, res) => {
 // 댓글 목록 조회 API
 
 router.get('/comments/:Uni_num', async (req, res) => {
-    const [existsPosts] = await Comments.find().sort('-time').exec();
+    const [existsPosts] = await Comments.find({ Uni_num }).sort('-time').exec();
 
     res.send({ existsPosts });
 });
