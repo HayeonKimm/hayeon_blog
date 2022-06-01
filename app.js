@@ -31,7 +31,7 @@ router.get('/users/me', authMiddleware, async (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.send('김하연이므니다.');
+    res.send('첫 기본 페이지 입니다..');
 });
 
 app.use('/api', express.urlencoded({ extended: false }), [
