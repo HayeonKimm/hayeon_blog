@@ -11,7 +11,7 @@ const authsRouter = require('./routes/auths');
 const authMiddleware = require('./auth-middleware/auth-middleware');
 const commentsRouter = require('./routes/comments');
 
-mongoose.connect('mongodb://localhost/sparta', {
+mongoose.connect('mongodb://localhost:27017/sparta', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

@@ -57,9 +57,9 @@ router.post('/users', async (req, res) => {
     }
 
     // 닉네임과 같은 값이 포함된 경우 회원가입 실패로 만들기.
-    if (password.split(nickname).length > 1) {
+    if (String(password).split(nickname).length > 1) {
         res.status(400).send({
-            errorMessage: '닉네임이 포함 됐습니다..',
+            errorMessage: '닉네임이 포함 됐습니다.',
         });
     }
 
