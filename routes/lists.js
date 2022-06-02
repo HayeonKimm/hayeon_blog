@@ -9,16 +9,20 @@ const authMiddleware = require('../auth-middleware/auth-middleware');
 var Uni_num = 0;
 
 router.post('/lists', authMiddleware, async (req, res) => {
-    const { id, sentence } = req.body;
+    const { sentence } = req.body;
+    const { nickname }  = res.locals.user;
+    
+    // console.log(nickname)
 
     var now = dayjs();
     var time = now.format();
     Uni_num++;
+    
 
     time = time.slice(0, 16).split('T').join(' ');
 
     const createdLists = await Lists.create({
-        id,
+        nickname,
         sentence,
         time,
         Uni_num,

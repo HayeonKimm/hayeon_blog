@@ -22,7 +22,7 @@ router.post('/auth', async (req, res) => {
         });
         return;
     }
-
+    console.log(user.nickname);
     const token = jwt.sign(
         { nickname: user.nickname },
         'customized-secret-key'
