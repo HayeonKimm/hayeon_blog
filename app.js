@@ -1,5 +1,4 @@
 const express = require('express');
-const req = require('express/lib/request');
 const User = require('./models/user');
 const mongoose = require('mongoose');
 const port = 3000;
