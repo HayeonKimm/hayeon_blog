@@ -1,6 +1,5 @@
 const Comments = require('../models/comment');
 const authMiddleware = require('../auth-middleware/auth-middleware');
-const { route } = require('./lists');
 const router = require('./lists');
 const User = require('../models/user');
 const Lists = require('../models/list');
@@ -77,15 +76,17 @@ router.put('/comments/:Uni_num', authMiddleware, async (req, res) => {
 
     const [existsLists] = await Lists.find({ Uni_num });
 
-    // console.log(existsLists.length); // 셀수가 없다.
 
-    if (!existsLists) {
+    if (existsLists) {
+        await Comments.updateOne({ Uni_num }, { $set: { sentence_co } });
+        
+    } else {
         return res
             .status(400)
             .json({ success: false, errorMessage: '해당 게시물이 없습니다.' });
     }
 
-    await Comments.updateOne({ Uni_num }, { $set: { sentence_co } });
+    
 
     res.json({ success: true });
 });
@@ -106,5 +107,6 @@ router.delete('/comments/:Uni_num', authMiddleware, async (req, res) => {
 
     res.json({ success: true });
 });
+
 
 module.exports = router;

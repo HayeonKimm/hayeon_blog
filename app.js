@@ -1,5 +1,4 @@
 const express = require('express');
-const req = require('express/lib/request');
 const User = require('./models/user');
 const mongoose = require('mongoose');
 const port = 3000;
@@ -20,20 +19,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(express.json());
-
-// get
-
-router.get('/users/me', authMiddleware, async (req, res) => {
-    const { user } = res.locals.user;
-    res.send({
-        user,
-    });
-});
-
-router.get('/', (req, res) => {
-    res.send('첫 기본 페이지 입니다..');
-});
-
 app.use('/api', express.urlencoded({ extended: false }), [
     router,
     listsRouter,
@@ -41,10 +26,18 @@ app.use('/api', express.urlencoded({ extended: false }), [
     usersRouter,
 ]);
 
+// get
+
+
+router.get('/', (req, res) => {
+    res.send('api  기본 페이지 입니다..');
+});
+
+
 // 제이슨으로 요청을 받고, 요청을 보낼수 있는 함수.
 
 app.get('/', (req, res) => {
-    res.send('Hi!');
+    res.send('항해99 C반 김하연A 첫 기본 페이지입니다.');
 });
 
 app.listen(port, () => {

@@ -21,6 +21,15 @@ function CV_checkIdPattern(str) {
     }
 }
 
+// 유저 개인정보
+
+router.get('/users/me', authMiddleware, async (req, res) => {
+    const { user } = res.locals.user;
+    res.send({
+        user,
+    });
+});
+
 // 회원가입 API
 
 //   1. 회원 가입 API

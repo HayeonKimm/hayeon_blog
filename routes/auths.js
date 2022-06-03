@@ -8,13 +8,11 @@ const jwt = require('jsonwebtoken');
 
 /// 로그인 API
 router.post('/auth', async (req, res) => {
+    
     const { nickname, password } = req.body;
-    console.log(nickname);
-    console.log(password);
-
     const user = await User.findOne({ nickname });
 
-    // NOTE: 인증 메세지는 자세히 설명하지 않는것을 원칙으로 한다: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#authentication-responses
+    // NOTE: 인증 메세지는 자세히 설명하지 않는것을 원칙으로 한다.
     if (!user || password !== user.password) {
         res.status(400).send({
             user,
@@ -22,13 +20,14 @@ router.post('/auth', async (req, res) => {
         });
         return;
     }
-    console.log(user.nickname);
+
     const token = jwt.sign(
         { nickname: user.nickname },
         'customized-secret-key'
     );
-    console.log(token);
+    
     res.send({ token });
 });
+
 
 module.exports = router;
